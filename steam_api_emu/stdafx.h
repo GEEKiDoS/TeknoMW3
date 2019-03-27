@@ -32,6 +32,6 @@
 //#define DEBUGGING_ENABLED
 #endif
 
-
+#define V(_a) (_a)
 
 // TODO: reference additional headers your program requires here

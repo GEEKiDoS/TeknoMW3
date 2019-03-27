@@ -7,12 +7,12 @@
 #include "StdAfx.h"
 #include "util_smbios2.h"
 #include "util.h"
-#include "VMProtectSDK.h"
+
 
 #pragma optimize("", off)
 
 int WinxpSMBiosReader::Checksum(const BYTE *buf, int len)
-{	VM("WinxpSMBiosReader::Checksum");
+{	//VM();WinxpSMBiosReader::Checksum");
 
 	BYTE sum = 0;
 
@@ -21,7 +21,7 @@ int WinxpSMBiosReader::Checksum(const BYTE *buf, int len)
 
 	return sum;
 
-	VE();
+	//VE();
 }
 
 #define WINXP_LOWMEM_MAX_LEN 0x100000
@@ -29,7 +29,7 @@ int WinxpSMBiosReader::Checksum(const BYTE *buf, int len)
 #define WINXP_LOWMEM_OPT_LEN WINXP_LOWMEM_MAX_LEN-WINXP_LOWMEM_OPT_START_ADDR
 
 BYTE* WinxpSMBiosReader::GetSMBiosRawData(DWORD& size)
-{	VM("WinxpSMBiosReader::GetSMBiosRawData");
+{	//VM();WinxpSMBiosReader::GetSMBiosRawData");
 
     BYTE* result = NULL;
 	size = 0;
@@ -107,11 +107,11 @@ BYTE* WinxpSMBiosReader::GetSMBiosRawData(DWORD& size)
     free(mem);
     return result;
 
-	VE();
+	//VE();
 }
 
 BOOL WinxpSMBiosReader::LocateNtdllEntryPoints()
-{	VM("WinxpSMBiosReader::LocateNtdllEntryPoints");
+{	//VM();WinxpSMBiosReader::LocateNtdllEntryPoints");
 
 	if (NtOpenSection != NULL) return true;
 
@@ -133,7 +133,7 @@ BOOL WinxpSMBiosReader::LocateNtdllEntryPoints()
     
 	return TRUE;
 
-	VE();
+	//VE();
 }
 
 //void WinxpSMBiosReader::PrintError(char *message, long status)
@@ -151,7 +151,7 @@ BOOL WinxpSMBiosReader::LocateNtdllEntryPoints()
 //}
 
 HANDLE WinxpSMBiosReader::OpenPhysicalMemory()
-{	VM("WinxpSMBiosReader::OpenPhysicalMemory");
+{	//VM();WinxpSMBiosReader::OpenPhysicalMemory");
 
 	long		status;
 	HANDLE			physmem;
@@ -173,11 +173,11 @@ HANDLE WinxpSMBiosReader::OpenPhysicalMemory()
 
 	return physmem;
 
-	VE();
+	//VE();
 }
 
 BOOL WinxpSMBiosReader::MapPhysicalMemory( HANDLE PhysicalMemory,PDWORD Address, PDWORD Length,PDWORD VirtualAddress )
-{	VM("WinxpSMBiosReader::MapPhysicalMemory");
+{	//VM();WinxpSMBiosReader::MapPhysicalMemory");
     
 	long			ntStatus;
 	LARGE_INTEGER	viewBase;
@@ -204,11 +204,11 @@ BOOL WinxpSMBiosReader::MapPhysicalMemory( HANDLE PhysicalMemory,PDWORD Address,
 	*Address = viewBase.LowPart;
 	return TRUE;
 
-	VE();
+	//VE();
 }
 
 void WinxpSMBiosReader::UnmapPhysicalMemory(DWORD Address)
-{	VM("WinxpSMBiosReader::UnmapPhysicalMemory");
+{	//VM();WinxpSMBiosReader::UnmapPhysicalMemory");
 	long status;
 
 	status = NtUnmapViewOfSection( (HANDLE) -1, (PVOID) Address );
@@ -217,11 +217,11 @@ void WinxpSMBiosReader::UnmapPhysicalMemory(DWORD Address)
 		info("Unable to unmap view %08X", status );
 	}
 
-	VE();
+	//VE();
 }
 
 void WinxpSMBiosReader::win_dump_mem(BYTE *buf, size_t base, size_t len)
-{	VM("WinxpSMBiosReader::win_dump_mem");
+{	//VM();WinxpSMBiosReader::win_dump_mem");
 
     LocateNtdllEntryPoints();//×÷ÓÃ??
 
@@ -264,12 +264,12 @@ void WinxpSMBiosReader::win_dump_mem(BYTE *buf, size_t base, size_t len)
 	//
 	CloseHandle( physmem );	
 
-	VE();
+	//VE();
 }
 
 
 BYTE * Win2k3SMBiosReader::GetSMBiosRawData(DWORD& size)
-{	VM("Win2k3SMBiosReader::GetSMBiosRawData");
+{	//VM();Win2k3SMBiosReader::GetSMBiosRawData");
 
     HINSTANCE hMoudle1 = GetModuleHandleA(V("kernel32.dll"));
     if (hMoudle1 == NULL)
@@ -294,7 +294,7 @@ BYTE * Win2k3SMBiosReader::GetSMBiosRawData(DWORD& size)
     size = pRawSMBiosData->Length;
     return (BYTE *)pRawSMBiosData;
 
-	VE();
+	//VE();
 }
 
 //CHwInfo::CHwInfo(BYTE* buf, int size)
@@ -317,7 +317,7 @@ CHwInfo::~CHwInfo()
 }
 
 BYTE* CHwInfo::GetSMBiosStructure(BYTE type, DWORD& size)
-{	VM("GetFirstStructure");
+{	//VM();GetFirstStructure");
 
     BYTE *p = m_pBufBios;
 
@@ -350,7 +350,7 @@ BYTE* CHwInfo::GetSMBiosStructure(BYTE type, DWORD& size)
 	size = 0;
     return NULL;
 
-	VE();
+	//VE();
 }
 
 
@@ -399,7 +399,7 @@ BOOL CHwInfo::IsWin2k3OrLater()
 }
 
 bool CHwInfo::GetSMBiosData()
-{	VM("CHwInfo::GetSMBiosData");
+{	//VM();CHwInfo::GetSMBiosData");
 
     BOOL bIs2k3 = IsWin2k3OrLater();
 	DWORD size = 0;
@@ -429,7 +429,7 @@ bool CHwInfo::GetSMBiosData()
 
 	return false;
 
-	VE();
+	//VE();
 }
 
 //

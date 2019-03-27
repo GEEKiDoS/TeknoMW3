@@ -5,7 +5,7 @@
 #include "stdio.h"
 #include "util.h"
 #include "util_adv_log.h"
-#include "VMProtectSDK.h"
+
 
 //Declaration of funcs that we'll use to add our DVAR's
 MYDVARADDBOOL  DvarAddBool  = NULL; //0

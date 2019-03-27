@@ -2,7 +2,7 @@
 #include "game_patch_base_coop.h"
 #include "game_patch_base.h"
 #include "util.h"
-#include "VMProtectSDK.h"
+
 DWORD stackspot1;
 DWORD stackspot2;
 DWORD stackspot3;
@@ -21,7 +21,7 @@ DWORD fovfuncloc2;
 DWORD g = 1;
 #pragma optimize("", off)
 bool PatchMW3Coop()
-{	VU("PatchMW3Coop");
+{	//VU("PatchMW3Coop");
 
 	DWORD oldp;
 	char location[256];
@@ -218,7 +218,7 @@ bool PatchMW3Coop()
 
 	VirtualProtect((void*)addr2, GetSectionSize(0), oldp, &oldp);
 	return true;
-	VE();
+	//VE();
 }
 #pragma optimize("", on)
 

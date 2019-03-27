@@ -6,7 +6,7 @@
 //#include "game_hotkey_base.h"
 //#include "game_dvar_base.h"
 //#include "game_server_items.h"
-//#include "VMProtectSDK.h"
+//
 //#include "steam_api_emu.h"
 //#include "steam_api_emu_misc.h"
 //#include "dw_stun_server.h"

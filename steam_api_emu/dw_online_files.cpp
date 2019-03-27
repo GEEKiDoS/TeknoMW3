@@ -9,11 +9,11 @@
 #include <sys/stat.h>
 #include <string>
 #include <map>
-#include "VMProtectSDK.h"
+
 
 bool g_Mpdata_loaded = false;
 
-char MOTD_vfile[25] = "^2Welcome To TeknoMW3!";
+char MOTD_vfile[25] = "^2Because we can...";
 
 unsigned char HeatMap_vfile[1565] =
 {
@@ -2687,8 +2687,8 @@ unsigned char Entitlement_vfile[925] =
 
 //request 0/0 -- get file infos (info_struct_b)
 // -------------------------------------- ticket before req
-//01CD60A8  B4 BD D5 01 00 00 00 00 00 00 00 00 00 00 00 00  ¥Ω’............
-//01CD60B8  00 00 00 00 00 00 00 00 58 35 85 00 00 00 00 00  ........X5Ö.....
+//01CD60A8  B4 BD D5 01 00 00 00 00 00 00 00 00 00 00 00 00  ¥Ω?............
+//01CD60B8  00 00 00 00 00 00 00 00 58 35 85 00 00 00 00 00  ........X5?....
 //01CD60C8  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD60D8  02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ............... -- i guess 2 means ticket needs to be consumed
 //01CD60E8  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
@@ -2699,11 +2699,11 @@ unsigned char Entitlement_vfile[925] =
 //01CD6138  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD6148  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD6158  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-//01CD6168  00 00 00 00 00 00 00 00 48 35 85 00 00 00 00 00  ........H5Ö.....
+//01CD6168  00 00 00 00 00 00 00 00 48 35 85 00 00 00 00 00  ........H5?....
 //01CD6178  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 // ---------------------------------------- ticket after req
-//01CD91A8  B4 EE D5 01 00 00 00 00 00 00 00 00 00 00 00 00  ¥Ó’............
-//01CD91B8  00 00 00 00 00 00 00 00 58 60 85 00 00 00 00 00  ........X`Ö.....
+//01CD91A8  B4 EE D5 01 00 00 00 00 00 00 00 00 00 00 00 00  ¥Ó?............
+//01CD91B8  00 00 00 00 00 00 00 00 58 60 85 00 00 00 00 00  ........X`?....
 //01CD91C8  13 00 00 00 00 00 00 00 8E 79 B0 4E 8E B6 EB 4E  .......éy∞Né∂ÎN -- 13 = unk, maybe DW operation code, then -- time stamps, creation date & mod date
 //01CD91D8  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................ -- first zero = ticket was consumed
 //01CD91E8  70 6C 61 79 6C 69 73 74 73 2E 61 67 67 72 00 00  playlists.aggr.. -- name, most likely 0x80
@@ -2714,12 +2714,12 @@ unsigned char Entitlement_vfile[925] =
 //01CD9238  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD9248  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD9258  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-//01CD9268  6B 3D 00 00 00 00 00 00 48 60 85 00 00 00 00 00  k=......H`Ö..... -- real size
+//01CD9268  6B 3D 00 00 00 00 00 00 48 60 85 00 00 00 00 00  k=......H`?.... -- real size
 //01CD9278  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 
 //mp data after request
 //01CD78F0  D0 D5 7D 00 00 00 00 00 00 00 00 00 00 00 00 00  –’}.............
-//01CD7900  00 30 00 00 00 00 00 00 58 60 85 00 00 00 00 00  .0......X`Ö.....
+//01CD7900  00 30 00 00 00 00 00 00 58 60 85 00 00 00 00 00  .0......X`?....
 //01CD7910  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD7920  02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ...............
 //01CD7930  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
@@ -2730,14 +2730,14 @@ unsigned char Entitlement_vfile[925] =
 //01CD7980  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD7990  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD79A0  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-//01CD79B0  00 00 00 00 00 00 00 00 48 60 85 00 38 E7 CC 01  ........H`Ö.8ÁÃ
+//01CD79B0  00 00 00 00 00 00 00 00 48 60 85 00 38 E7 CC 01  ........H`?8ÁÃ
 //01CD79C0  00 30 00 00 00 30 00 00 38 E7 CC 01 00 00 00 00  .0...0..8ÁÃ....
 
 //mpdata after file info request
-//01CD78F0  D0 D5 7D 00 00 00 00 00 D2 96 75 89 0D 00 00 00  –’}.....“ñuâ.... -- here at +8, 2x dwords that should be some shit thats passed in the packet
-//01CD7900  00 30 00 00 00 00 00 00 58 60 85 00 00 00 00 00  .0......X`Ö.....
-//01CD7910  D2 96 75 89 0D 00 00 00 0D 5F F3 4E 0D 5F F3 4E  “ñuâ....._ÛN._ÛN --some values, same as at +8, fuck knows why, then time stamp dwords
-//01CD7920  01 00 00 00 00 00 00 00 8C 31 01 02 01 00 10 01  .......å1. -- 1, fuck knows why, then steam ID
+//01CD78F0  D0 D5 7D 00 00 00 00 00 D2 96 75 89 0D 00 00 00  –’}.....“ñu?... -- here at +8, 2x dwords that should be some shit thats passed in the packet
+//01CD7900  00 30 00 00 00 00 00 00 58 60 85 00 00 00 00 00  .0......X`?....
+//01CD7910  D2 96 75 89 0D 00 00 00 0D 5F F3 4E 0D 5F F3 4E  “ñu?...._ÛN._ÛN --some values, same as at +8, fuck knows why, then time stamp dwords
+//01CD7920  01 00 00 00 00 00 00 00 8C 31 01 02 01 00 10 01  .......?. -- 1, fuck knows why, then steam ID
 //01CD7930  6D 70 64 61 74 61 00 00 00 00 00 00 00 00 00 00  mpdata..........
 //01CD7940  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD7950  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
@@ -2746,7 +2746,7 @@ unsigned char Entitlement_vfile[925] =
 //01CD7980  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD7990  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
 //01CD79A0  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-//01CD79B0  00 30 00 00 00 00 00 00 48 60 85 00 38 E7 CC 01  .0......H`Ö.8ÁÃ --ptr
+//01CD79B0  00 30 00 00 00 00 00 00 48 60 85 00 38 E7 CC 01  .0......H`?8ÁÃ --ptr
 //01CD79C0  00 30 00 00 00 30 00 00 38 E7 CC 01 00 00 00 00  .0...0..8ÁÃ.... -- size, size, ptr
 
 
@@ -2756,7 +2756,7 @@ DWORD last_crc32 = 0;
 //map<string, RequestTicketBlob *> loaded_online_files; 
 
 char * SaveDWMpdataToFile(bool no_fail)
-{	VU("SaveDWMpdataToFile");
+{	//VU("SaveDWMpdataToFile");
 
 	//switch that would enable this function to be used when injected to a real steam'ed game process
 	//in order to dump the profile
@@ -2823,7 +2823,7 @@ char * SaveDWMpdataToFile(bool no_fail)
 	info("DW-OnlineFiles: Unable to create MPDATA file (%s).", fname);
 	return NULL;
 
-	VE();
+	//VE();
 }
 
 
@@ -2845,7 +2845,7 @@ bool IsDWFileLoaded(RequestTicketBlob * blob)
 
 
 bool LoadDWFileStats(RequestTicketBlob * blob)
-{	VM("LoadDWFileStats");
+{	//VM();LoadDWFileStats");
 
 	struct _stat32 f_stats; 
 
@@ -2890,12 +2890,12 @@ bool LoadDWFileStats(RequestTicketBlob * blob)
 	}
 
 	return false;
-	VE();
+	//VE();
 }
 
 
 bool LoadDWFileStatsFromMem(RequestTicketBlob * blob)
-{	VU("LoadDWFileStatsFromMem");
+{	//VU("LoadDWFileStatsFromMem");
 
 	strcpy(blob->local_name, blob->name);
 	blob->timestamp_c = 0xDEADBABE;
@@ -2907,12 +2907,12 @@ bool LoadDWFileStatsFromMem(RequestTicketBlob * blob)
 	blob->buffer_size_a = blob->buffer_size_b;
 	blob->consumption_state = 1;
 	return true;
-	VE();
+	//VE();
 }
 
 
 bool LoadDWFileFromMem(bool load_earlybirds, RequestTicketBlob * blob)
-{	VU("LoadDWFileFromMem");
+{	//VU("LoadDWFileFromMem");
 
 	if (load_earlybirds)
 	{
@@ -3079,12 +3079,12 @@ bool LoadDWFileFromMem(bool load_earlybirds, RequestTicketBlob * blob)
 	
 	
 	return false;
-	VE();
+	//VE();
 }
 
 
 bool LoadDWMpdataFile(RequestTicketBlob * blob)
-{	VU("LoadDWMpdataFile");
+{	//VU("LoadDWMpdataFile");
 
 	//DWORD local_mpdata = 0x01CCE63D;
 	//*(DWORD*)(local_mpdata+0x288e+0x00) = 0x2a;
@@ -3228,12 +3228,12 @@ bool LoadDWMpdataFile(RequestTicketBlob * blob)
 		}
 	}
 	return false;
-	VE();
+	//VE();
 }
 
 
 bool LoadDWFile(RequestTicketBlob * blob)
-{	VM("LoadDWFile");
+{	//VM();LoadDWFile");
 
 	string fname;
 	fname = V(".\\dw\\");
@@ -3274,13 +3274,13 @@ bool LoadDWFile(RequestTicketBlob * blob)
 		info("DW-OnlineFiles: Error, file not found (%s)", fname.c_str());
 	}
 	return false;
-	VE();
+	//VE();
 }
 
 
 
 DWORD __cdecl myDWGetFile(DWORD caller, DWGETFILE tramp, DWORD * info_struct_a, RequestTicketBlob * info_struct_b)
-{	VM("myDWGetFile");
+{	//VM();myDWGetFile");
 	
 	//return LoadDWFile(info_struct_b);
 
@@ -3323,7 +3323,7 @@ DWORD __cdecl myDWGetFile(DWORD caller, DWGETFILE tramp, DWORD * info_struct_a, 
 	}
 
 	return false;
-	VE();
+	//VE();
 }
 
 #pragma optimize("", on)

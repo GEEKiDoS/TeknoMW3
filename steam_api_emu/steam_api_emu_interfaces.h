@@ -10,7 +10,7 @@
 #include "game_patch_base.h"
 #include "game_server_items.h"
 #include "game_dvar_base.h"
-#include "VMProtectSDK.h"
+
 
 #pragma optimize("", off)
 class CSteamUser016 : public ISteamUser016
@@ -1084,7 +1084,7 @@ public:
 	}
 
 	int AddFavoriteGame( AppId_t nAppID, uint32 nIP, uint16 nConnPort, uint16 nQueryPort, uint32 unFlags, RTime32 rTime32LastPlayedOnServer )
-	{	VM("AddFavoriteGame");
+	{	//VM();AddFavoriteGame");
 
 		g_Logging.AddToLogFileA( "ISteamMatchmaking007.log", "AddFavoriteGame(AppId_t = %08X, nIP = %08X, nConnPort = %d, nQueryPort = %d, unFlags = %08X, rTime32LastPlayedOnServer = %08X)",  nAppID, nIP, nConnPort, nQueryPort, unFlags, rTime32LastPlayedOnServer);
 
@@ -1098,7 +1098,7 @@ public:
 
 		return 0;
 
-		VE();
+		//VE();
 	}
 
     bool RemoveFavoriteGame( AppId_t nAppID, uint32 nIP, uint16 nConnPort, uint16 nQueryPort, uint32 unFlags )
@@ -1172,7 +1172,7 @@ public:
 	}
 
 	SteamAPICall_t CreateLobby( ELobbyType eLobbyType, int id)
-	{	VM("CreateLobby");
+	{	//VM();CreateLobby");
 
 		g_Logging.AddToLogFileA( "ISteamMatchmaking007.log", "CreateLobby type=%d id=%d", eLobbyType, id );
 
@@ -1183,7 +1183,7 @@ public:
 		s_createlobby_api++;
 		return s_createlobby_api;
 
-		VE();
+		//VE();
 	}
 
 	SteamAPICall_t JoinLobby( CSteamID steamIDLobby )
@@ -1481,7 +1481,7 @@ class CSteamGameServer010 : public ISteamGameServer010
 {
 public:
 	void LogOn()
-	{	VM("LogOn");
+	{	//VM();LogOn");
 
 		g_Logging.AddToLogFileA( "ISteamGameServer009.log", "LogOn" );
 
@@ -1490,18 +1490,18 @@ public:
 		svinfo->initialize(&steamId);
 		svinfo->start();
 
-		VE();
+		//VE();
 	}
 
 	void LogOff()
-	{	VM("LogOff");
+	{	//VM();LogOff");
 
 		g_Logging.AddToLogFileA( "ISteamGameServer009.log", "LogOff" );
 
 		ServerInformer* svinfo = ServerInformer::getInstance();
 		svinfo->stop();
 
-		VE();
+		//VE();
 	}
 	
 	bool BLoggedOn()
@@ -1555,7 +1555,7 @@ public:
 
 	bool BSetServerType( uint32 unServerFlags, uint32 unGameIP, uint16 unGamePort, 
 								uint16 unSpectatorPort, uint16 usQueryPort, const char *pchGameDir, const char *pchVersion, bool bLANMode )
-	{	VM("BSetServerType");
+	{	//VM();BSetServerType");
 
 		g_Logging.AddToLogFileA( "ISteamGameServer009.log", "SetServerType(unServerFlags=%08X, unGameIP=%08X, unGamePort=%04X, unSpectatorPort=%04X, usQueryPort=%04X, pchGameDir='%s', pchVersion='%s', bLANMode=%d", unServerFlags, unGameIP, unGamePort, unSpectatorPort, usQueryPort, pchGameDir, pchVersion, bLANMode);
 
@@ -1568,13 +1568,13 @@ public:
 		}
 
 		return true;
-		VE();
+		//VE();
 	}
 
 	void UpdateServerStatus( int cPlayers, int cPlayersMax, int cBotPlayers, 
 									 const char *pchServerName, const char *pSpectatorServerName, 
 									 const char *pchMapName )
-	{	VM("UpdateServerStatus");
+	{	//VM();UpdateServerStatus");
 
 		g_Logging.AddToLogFileA( "ISteamGameServer009.log", "UpdateServerStatus(cPlayers=%d, cPlayersMax=%d, cBotPlayers=%d, pchServerName='%s', pSpectatorServerName='%s',  pchMapName='%s'", cPlayers, cPlayersMax, cBotPlayers, pchServerName, pSpectatorServerName, pchMapName);
 
@@ -1582,7 +1582,7 @@ public:
 		svinfo->updateServer(cPlayers, cPlayersMax, pchServerName, pchMapName);
 
 		//SteamGameServer_org->UpdateServerStatus(cPlayers, cPlayersMax, cBotPlayers, pchServerName, pSpectatorServerName, pchMapName);
-		VE();
+		//VE();
 	}
 
 	void UpdateSpectatorPort( uint16 unSpectatorPort )
@@ -1593,7 +1593,7 @@ public:
 	}
 
 	void SetGameTags( const char *pchGameType )
-	{	VM("SetGameTags");
+	{	//VM();SetGameTags");
 
 		g_Logging.AddToLogFileA( "ISteamGameServer009.log", "SetGameTags( %s )", pchGameType );
 
@@ -1601,7 +1601,7 @@ public:
 		svinfo->setGameTags(pchGameType);
 
 		return;
-		VE();
+		//VE();
 	}
 
 	void GetGameplayStats( )
@@ -1687,7 +1687,7 @@ class CSteamMatchmakingServers002 : public ISteamMatchmakingServers002
 {
 public:
 	void *RequestInternetServerList( AppId_t iApp, MatchMakingKeyValuePair_t **ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse *pRequestServersResponse )
-	{	VM("RequestInternetServerList");
+	{	//VM();RequestInternetServerList");
 
 		g_Logging.AddToLogFileA( "ISteamMatchmakingServers002.log", "RequestInternetServerList(AppId_t=%d, ISteamMatchmakingServerListResponse=%08X (ServerResponded=%08X, RefreshComplete=%08X, ServerFailedToRespond=%08X))", iApp, pRequestServersResponse, *(DWORD*)(*(DWORD*)pRequestServersResponse), *(DWORD*)(*(DWORD*)pRequestServersResponse+8), *(DWORD*)(*(DWORD*)pRequestServersResponse+4));
 		
@@ -1699,11 +1699,11 @@ public:
 		}
 		
 		return NULL;
-		VE();
+		//VE();
 	}
 
 	void *RequestLANServerList( AppId_t iApp, ISteamMatchmakingServerListResponse *pRequestServersResponse )
-	{	VM("RequestLANServerList");
+	{	//VM();RequestLANServerList");
 
 		g_Logging.AddToLogFileA( "ISteamMatchmakingServers002.log", "RequestLANServerList(AppId_t=%d, ISteamMatchmakingServerListResponse=%08X (ServerResponded=%08X, RefreshComplete=%08X, ServerFailedToRespond=%08X))", iApp, pRequestServersResponse, *(DWORD*)(*(DWORD*)pRequestServersResponse), *(DWORD*)(*(DWORD*)pRequestServersResponse+8), *(DWORD*)(*(DWORD*)pRequestServersResponse+4));
 
@@ -1711,7 +1711,7 @@ public:
 		pList->sendLocalBroadcast(pRequestServersResponse);
 
 		return pList;
-		VE();
+		//VE();
 	}
 
 	void *RequestFriendsServerList( AppId_t iApp, MatchMakingKeyValuePair_t **ppchFilters, uint32 nFilters, ISteamMatchmakingServerListResponse *pRequestServersResponse )
@@ -1771,7 +1771,7 @@ public:
 	}
 
 	gameserveritem_t *GetServerDetails( void *pRequest, int iServer )
-	{	VM("GetServerDetails_steam");
+	{	//VM();GetServerDetails_steam");
 
 		g_Logging.AddToLogFileA( "ISteamMatchmakingServers002.log", "GetServerDetails(%d)", iServer);
 
@@ -1791,7 +1791,7 @@ public:
 
 		//return ((ServerItem *)pRequest)->getGameServerItem();
 
-		VE();
+		//VE();
 	}
 
 	void CancelQuery( void *pRequest )

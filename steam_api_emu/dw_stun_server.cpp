@@ -5,7 +5,7 @@
 #include "steam_api_emu.h"
 #include "game_server_items.h"
 #include <winsock2.h>
-#include "VMProtectSDK.h"
+
 
 #pragma optimize("", off)
 
@@ -38,7 +38,7 @@ PTSTUN_MSG_15 STUN_MSG_15 = NULL;
 bool StunReplyMessagesInited = false;
 
 bool StunServerInitMessages(sockaddr_in * sender)
-{	VM("StunServerInitMessages");
+{	//VM();StunServerInitMessages");
 
 	info("StunServerInitMessages()");
 
@@ -73,7 +73,7 @@ bool StunServerInitMessages(sockaddr_in * sender)
 		}
 	}
 	return false;
-	VE();
+	//VE();
 }
 
 
@@ -109,7 +109,7 @@ DWORD WINAPI StunServerThreadFunc(LPVOID lpParameter)
 		if( dataLen > 1 )
 		{
 			if (StunServerInitMessages(&senderAddr))
-			{	VM("StunServerThreadFunc_process_msg");
+			{	//VM();StunServerThreadFunc_process_msg");
 
 				BYTE *pType = (BYTE*)recvBuf;
 				info("StunServerThreadFunc Received StunCMD(%02X:%02X)", pType[0], pType[1]);
@@ -140,7 +140,7 @@ DWORD WINAPI StunServerThreadFunc(LPVOID lpParameter)
 					}
 
 				}
-				VE();
+				//VE();
 			}
 			else
 			{

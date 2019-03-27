@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Notes">
       <UniqueIdentifier>{ef9321ff-fc67-488e-b11c-3e7041cb38f2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\IW5MPatches">
+      <UniqueIdentifier>{719b0f74-8012-4aea-a90c-2f2eac698540}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -882,9 +885,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="util_ini.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VMProtectSDK.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game_patch_base_coop.h">

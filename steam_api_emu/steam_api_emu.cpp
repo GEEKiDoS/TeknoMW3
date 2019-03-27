@@ -16,19 +16,13 @@
 #include "game_server_items.h"
 #include "dw_stun_server.h"
 #include "dw_online_files.h"
-#include "VMProtectSDK.h"
 #pragma comment(lib, "WSOCK32.LIB")
-
-
-
 
 #ifdef __cplusplus
 extern "C"
 #endif
 void * _ReturnAddress(void);
 #pragma intrinsic(_ReturnAddress)
-
-
 
 bool IsInited = false;
 
@@ -98,7 +92,7 @@ void __cdecl TeknoGodzMW2_SetPendingConnection( unsigned long ipaddr, unsigned s
 
 bool IsSetupDone = false;
 int __cdecl TeknoGodzMW2_SteamSetup()
-{	VU("TeknoGodzMW2_SteamSetup");
+{	//VU("TeknoGodzMW2_SteamSetup");
 
 	if (!IsSetupDone)
 	{
@@ -165,7 +159,7 @@ int __cdecl TeknoGodzMW2_SteamSetup()
 		//master server stuff
 		if (g_OnlineMode)
 		{
-			char *master = iniReader.ReadString(V("Network"),V("MasterServer"), V("teknogods.com:27017"));
+			char *master = iniReader.ReadString(V("Network"),V("MasterServer"), V("mw3master.teknogods.com:27017"));
 			
 			if (!parseIpPort(master, &g_MasterIp, &g_MasterPort))
 			{
@@ -267,7 +261,7 @@ int __cdecl TeknoGodzMW2_SteamSetup()
 		#endif
 	}
 	return 1;
-	VE();
+	//VE();
 }
 
 
@@ -275,7 +269,7 @@ int __cdecl TeknoGodzMW2_SteamSetup()
 
 
 DWORD WINAPI ProfileDumper_thread(LPVOID lpParameter)
-{	VM("ProfileDumper_thread");
+{	//VM();ProfileDumper_thread");
 
 	int i = 0;
 	while (1)
@@ -308,158 +302,70 @@ DWORD WINAPI ProfileDumper_thread(LPVOID lpParameter)
 		}
 	}
 
-	VE();
+	//VE();
 }
 
 
 bool RunSteamDRMCheck()
-{	VU("RunSteamDRMCheck");
-
-	//char * cmdline = GetCommandLineA();
-
-	//if (strstr(cmdline, V("+edebug")) != NULL || GAME_MODE == 'D') return true;
-
-	//if (g_SteamGUIDsFail)
-	//{
-	//	MessageBoxA(0, V("Steam DRM checks failed. Please use the original executable (bound to your account/computer)."), V("Error"), MB_ICONERROR);
-	//	ExitProcess(0xDEAD);
-	//}
-
-	//char cdir[1024];
-	//GetCurrentDirectoryA(1024, cdir);
-
-	//if (strstr(cdir, V("steamapps\\common")) == NULL)
-	//{
-	//	MessageBoxA(0, V("Steam DRM checks failed. Unable to validate the game installation path."), V("Error"), MB_ICONERROR);
-	//	ExitProcess(0xDEAD);
-	//}
-
+{
 	return true;
-
-	VE();
 }
 
+#pragma optimize("", on)
 
+static BYTE originalCode[5];
+static PBYTE originalEP = 0;
 
-BOOL SteamAPI_Main(HMODULE hModule, DWORD ul_reason_for_call)
+void Main_UnprotectModule(HMODULE hModule)
 {
+	PIMAGE_DOS_HEADER header = (PIMAGE_DOS_HEADER)hModule;
+	PIMAGE_NT_HEADERS ntHeader = (PIMAGE_NT_HEADERS)((DWORD)hModule + header->e_lfanew);
 
-	//if ((ul_reason_for_call == DLL_PROCESS_ATTACH ) && (!IsInited))
-	if (!IsInited)
-	{	VU("SteamAPI_Main");
-		
-		//check if we need to dump the profile from steam-powered process
-		if (ValidateDumperMutex())
-		{
-			info("Profile Dumper mode detected....");
-			IsInited = true;
-			CreateThread(NULL, 0, ProfileDumper_thread, 0, 0, NULL);
-			return true;
-		}
+	// unprotect the entire PE image
+	SIZE_T size = ntHeader->OptionalHeader.SizeOfImage;
+	DWORD oldProtect;
+	VirtualProtect((LPVOID)hModule, size, PAGE_EXECUTE_READWRITE, &oldProtect);
+}
 
-		//MessageBoxA(0,0,0,0); //__asm int 3;
-		////GetHWIDchunk(3);
-		//DWORD x[4];
-		//GetHWID(x);
-		//ExitProcess(0);
+void Main_DoInit()
+{
+	// unprotect our entire PE image
+	HMODULE hModule;
+	if (SUCCEEDED(GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCSTR)Main_DoInit, &hModule)))
+	{
+		Main_UnprotectModule(hModule);
+	}
 
-
-
+	if (*(DWORD*)0x401B40 == 0x5638EC83) //client 1.4!
+	{
 		char * cmdline = GetCommandLineA();
 		IsInited = true;
 		WSADATA wsaData;
-		WSAStartup(MAKEWORD(2,2), &wsaData);
-		#ifdef DEBUGGING_ENABLED
-		g_Logging.BaseUponModule( hModule );
-		g_Logging.AddToLogFileA( "steam_emu.log", "Attached to process!" );
+		WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-		MessageBoxA(0,0,0,0);
-		LoadLibraryA("a.dll");
-		#endif
-
-		//if +offline is not found, set online mode, else, offline (no master server connection)
-		//if (strstr(cmdline, V("+offline")) == NULL)
-		//	g_OnlineMode = true;
-		//else
-		//	g_OnlineMode = false;
-
-		#ifndef DEBUGGING_ENABLED
-		if ((!GetGameMode()) || GAME_MODE == 'U' || !ValidateLoaderMutex() || !VMProtectIsValidImageCRC() || VMProtectIsDebuggerPresent(false))
-			ExitProcess(0);
-		#else
 		GetGameMode();
-		#endif
 
 		//get all available ip's
 		EnumNetworkAdapters();
 
 		TeknoGodzMW2_SteamSetup();
 		GetConsole();
-		//HookGenerateSharedKey();
 
-	
-		if (GAME_MODE == 'S')
-		{
-			if (PatchMW3Coop())
-			{
-				#ifdef DEBUGGING_ENABLED
-				info("PatchMW3Coop done.");
-				#endif
+		g_Patch_DW_STUN_Server_port_and_hosts = true;
+		StartStunServer();
+		HookAuthorizeIP();
+		GetGameBuildNum();
 
-				g_Patch_DW_STUN_Server_port_and_hosts = true;
-				StartStunServer();
-
-				#ifdef DEBUGGING_ENABLED
-				HookDWLogFunc();
-				#endif
-
-				g_Patch_DW_ConnectionStatus = true;
-				HookGetAssetFunc();
-				PatchVariousStuff();
-
-				RunSteamDRMCheck();
-				HookDvarToStrForScripts();
-
-				return true;
-			}
-			else
-			{
-				MessageBoxA(0,V("Failed to init the DLL - unsupported game version?"), V("Error"), MB_ICONERROR);
-			}
-			ExitProcess(0);
-		}
-
-		if ((GAME_MODE == 'M') || (GAME_MODE == 'D'))
-		{
-			g_Patch_DW_STUN_Server_port_and_hosts = true;
-			StartStunServer();
-			HookAuthorizeIP();
-			GetGameBuildNum();
-
-			if (GAME_MODE == 'D')
-			{
-				HookIsMapInstalled();
-				GetFillServerInfo();
-				GetConsolePrintf();
-				HookGetBanStatus();
-				GetClientsBlock();
-				HookProcessClientUICommand();
-			}
-
-			if (GAME_MODE == 'M')
-			{
-				HookGetServerInfo();
-				HookGetAssetFunc();
-				GetHeatmapCheckPtr();
-				GetBlobLoader();
-			}
-		}
+		HookGetServerInfo();
+		HookGetAssetFunc();
+		GetHeatmapCheckPtr();
+		GetBlobLoader();
 
 		if (strstr(cmdline, V("+unranked")) != NULL)
 		{
 			g_Set_Ranked_Games = false;
 		}
-		
+
 
 		HookDWLogFunc();
 		HookDWGetFile();
@@ -471,19 +377,48 @@ BOOL SteamAPI_Main(HMODULE hModule, DWORD ul_reason_for_call)
 		HookKeyboard();
 
 		RunSteamDRMCheck();
-
-		VE();
 	}
 
-    return true;
+	// return to the original EP
+	memcpy(originalEP, &originalCode, sizeof(originalCode));
+	__asm jmp originalEP
 }
 
-#pragma optimize("", on)
 
-BOOL APIENTRY DllMain( HMODULE hModule,
-                       DWORD  ul_reason_for_call,
-                       LPVOID lpReserved
-					 )
+void Main_SetSafeInit()
 {
-	return SteamAPI_Main(hModule, ul_reason_for_call);
+	// find the entry point for the executable process, set page access, and replace the EP
+	HMODULE hModule = GetModuleHandle(NULL); // passing NULL should be safe even with the loader lock being held (according to ReactOS ldr.c)
+
+	if (hModule)
+	{
+		PIMAGE_DOS_HEADER header = (PIMAGE_DOS_HEADER)hModule;
+		PIMAGE_NT_HEADERS ntHeader = (PIMAGE_NT_HEADERS)((DWORD)hModule + header->e_lfanew);
+
+		Main_UnprotectModule(hModule);
+
+		// back up original code
+		PBYTE ep = (PBYTE)((DWORD)hModule + ntHeader->OptionalHeader.AddressOfEntryPoint);
+		memcpy(originalCode, ep, sizeof(originalCode));
+
+		// patch to call our EP
+		int newEP = (int)Main_DoInit - ((int)ep + 5);
+		ep[0] = 0xE9; // for some reason this doesn't work properly when run under the debugger
+		memcpy(&ep[1], &newEP, 4);
+
+		originalEP = ep;
+	}
+}
+
+
+BOOL __stdcall DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
+{
+	if (dwReason == DLL_PROCESS_ATTACH)
+	{
+		Main_UnprotectModule(GetModuleHandle(NULL));
+
+		Main_SetSafeInit();
+	}
+
+	return true;
 }

@@ -7,7 +7,7 @@
 #include "game_hotkey_base.h"
 #include "game_dvar_base.h"
 #include "game_server_items.h"
-#include "VMProtectSDK.h"
+
 #include "steam_api_emu.h"
 #include "steam_api_emu_misc.h"
 #include "dw_stun_server.h"
@@ -162,7 +162,7 @@ FF_FILE_INFO * __cdecl myGetAsset(DWORD caller, GETASSET tramp, DWORD type, char
 }
 
 bool HookGetAssetFunc()
-{	VM("HookGetAssetFunc");
+{	//VM();HookGetAssetFunc");
 
 	int addr = 0;
 	__try  
@@ -213,7 +213,7 @@ bool HookGetAssetFunc()
 
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -223,7 +223,7 @@ int Console_Stub(DWORD code, const char* Format)
 }
 
 bool GetConsole()
-{	VM("GetConsole");
+{	//VM();GetConsole");
 
 	__try  
 	{
@@ -253,7 +253,7 @@ bool GetConsole()
 	}
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -267,7 +267,7 @@ int ConsolePrintf_Stub(DWORD code, const char* Format, ...)
 //MYCONPRINTF ConsolePrintf = (MYCONPRINTF)ConsolePrintf_Stub;
 
 bool GetConsolePrintf()
-{	VM("GetConsolePrintf");
+{	//VM();GetConsolePrintf");
 
 	__try  
 	{
@@ -297,7 +297,7 @@ bool GetConsolePrintf()
 
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -312,7 +312,7 @@ void __stdcall LoadBlob_Stub(DWORD dw_low, DWORD dw_high, char* name, void * blo
 
 
 bool GetBlobLoader()
-{	VM("GetBlobLoader");
+{	//VM();GetBlobLoader");
 
 	__try  
 	{
@@ -350,13 +350,13 @@ bool GetBlobLoader()
 		return 0;
 	}
 	return 1;
-	VE();
+	//VE();
 }
 
 
 
 bool PatchHeatmapCheck()
-{	VU("PatchHeatmapCheck");
+{	//VU("PatchHeatmapCheck");
 
 	if ( HeatMapCheck_ptr1 != NULL)
 	{
@@ -365,11 +365,11 @@ bool PatchHeatmapCheck()
 	}
 
 	return false;
-	VE();
+	//VE();
 }
 
 bool GetHeatmapCheckPtr()
-{	VM("GetHeatmapCheckPtr");
+{	//VM();GetHeatmapCheckPtr");
 
 	__try  
 	{
@@ -405,13 +405,13 @@ bool GetHeatmapCheckPtr()
 		return 0;
 	}
 	return 1;
-	VE();
+	//VE();
 }
 
 
 
 bool GetGameBuildNum()
-{	VM("GetGameBuildNum");
+{	//VM();GetGameBuildNum");
 
 	__try  
 	{
@@ -488,11 +488,11 @@ bool GetGameBuildNum()
 		return 0;
 	}
 	return 1;
-	VE();
+	//VE();
 }
 
 bool GetSteamIDAndMpdataLocs()
-{	VM("GetSteamIDAndMpdataLocs");
+{	//VM();GetSteamIDAndMpdataLocs");
 
 	if (g_MpdataLoc != NULL && g_SteamID_DW64 != NULL)
 		return 1;
@@ -549,7 +549,7 @@ bool GetSteamIDAndMpdataLocs()
 		return 0;
 	}
 	return 1;
-	VE();
+	//VE();
 }
 
 
@@ -605,7 +605,7 @@ int myGetClientCmd(DWORD caller, MYGETCLIENTCMD tramp, int requestedParam, char 
 
 
 bool GetClientsBlock()
-{	VM("GetClientsBlock");
+{	//VM();GetClientsBlock");
 
 	if (GAME_MODE != 'D') return false;
 
@@ -664,7 +664,7 @@ bool GetClientsBlock()
 		return 0;
 	}
 	return 1;
-	VE();
+	//VE();
 }
 
 
@@ -672,7 +672,7 @@ bool GetClientsBlock()
 
 
 int myConsoleFunc(DWORD caller, MYCONPROC tramp, DWORD unk, char * command)
-{	VM("myConsoleFunc");
+{	//VM();myConsoleFunc");
 
 	#ifdef DEBUGGING_ENABLED
 	g_Logging.AddToLogFileA( "GameConsole.log", command);
@@ -928,11 +928,11 @@ int myConsoleFunc(DWORD caller, MYCONPROC tramp, DWORD unk, char * command)
 
 
 	return tramp(unk, command);
-	VE();
+	//VE();
 }
 
 bool HookConsole()
-{	VM("HookConsole");
+{	//VM();HookConsole");
 
 	int addr = 0;
 	__try  
@@ -964,7 +964,7 @@ bool HookConsole()
 	}
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -980,7 +980,7 @@ bool HookConsole()
 //.text:006DBDC0 6A 02                                         push    2
 typedef DWORD (__cdecl *DWLOG)(DWORD e_type, char * prolog, char * service, char * codetree, char * funcname, DWORD unk1, char * format);
 DWORD __cdecl myDWLogFunc(DWORD caller, DWLOG tramp, DWORD e_type, char * prolog, char * service, char * codetree, char * funcname, DWORD unk1, char * format, ... )
-{	VM("myDWLogFunc");
+{	//VM();myDWLogFunc");
 
 	#ifdef DEBUGGING_ENABLED
 	char buf[1024 * 10];
@@ -1010,7 +1010,7 @@ DWORD __cdecl myDWLogFunc(DWORD caller, DWLOG tramp, DWORD e_type, char * prolog
 
 	return 0; //tramp(e_type, prolog, service, codetree, funcname, unk1, format);
 
-	VE();
+	//VE();
 }
 
 
@@ -1018,7 +1018,7 @@ DWORD __cdecl myDWLogFunc(DWORD caller, DWLOG tramp, DWORD e_type, char * prolog
 
 
 bool HookDWLogFunc()
-{	VM("HookDWLogFunc");
+{	//VM();HookDWLogFunc");
 
 	int addr = 0;
 	__try  
@@ -1072,13 +1072,13 @@ bool HookDWLogFunc()
 
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
 
 bool HookDWGetFile()
-{	VM("HookDWGetFile");
+{	//VM();HookDWGetFile");
 
 	int addr = 0;
 	__try  
@@ -1210,13 +1210,13 @@ bool HookDWGetFile()
 
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
 typedef DWORD (__cdecl *ISMAPINST)(char * file_name, int type);
 DWORD __cdecl myIsMapInstalled(DWORD caller, ISMAPINST tramp, char * file_name, int type)
-{	VM("myIsMapInstalled");
+{	//VM();myIsMapInstalled");
 
 	DWORD ret = tramp(file_name, type);
 
@@ -1227,13 +1227,13 @@ DWORD __cdecl myIsMapInstalled(DWORD caller, ISMAPINST tramp, char * file_name, 
 	}
 
 	return ret;
-	VE();
+	//VE();
 }
 
 
 
 bool HookIsMapInstalled()
-{	VM("HookIsMapInstalled");
+{	//VM();HookIsMapInstalled");
 
 	int addr = 0;
 	__try  
@@ -1271,7 +1271,7 @@ bool HookIsMapInstalled()
 
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -1280,7 +1280,7 @@ bool HookIsMapInstalled()
 
 typedef void (__cdecl *PROCUICMD)(int clientnum);
 void __cdecl myProcessClientUICommand(DWORD caller, PROCUICMD tramp, int clientnum)
-{	VM("myProcessClientUICommand");
+{	//VM();myProcessClientUICommand");
 
 	char *cmd = NULL;
 	__asm
@@ -1333,12 +1333,12 @@ void __cdecl myProcessClientUICommand(DWORD caller, PROCUICMD tramp, int clientn
 
 	tramp(clientnum);
 
-	VE();
+	//VE();
 }
 
 
 bool HookProcessClientUICommand()
-{	VM("HookProcessClientUICommand");
+{	//VM();HookProcessClientUICommand");
 
 	int addr = 0;
 	__try  
@@ -1377,7 +1377,7 @@ bool HookProcessClientUICommand()
 	}
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -1386,7 +1386,7 @@ bool HookProcessClientUICommand()
 
 typedef DWORD (__cdecl *GENSECKEY)(void * sec_id, void * sec_key);
 DWORD __cdecl myGenerateSecurityKeys(DWORD caller, GENSECKEY tramp, DWORD * sec_id, DWORD * sec_key)
-{	VM("myGenerateSecurityKeys");
+{	//VM();myGenerateSecurityKeys");
 
 	DWORD ret = tramp(sec_id, sec_key);
 
@@ -1400,12 +1400,12 @@ DWORD __cdecl myGenerateSecurityKeys(DWORD caller, GENSECKEY tramp, DWORD * sec_
 	memcpy(g_ServerKey, sec_key, 16);
 
 	return ret;
-	VE();
+	//VE();
 }
 
 
 bool HookGenerateSecurityKeys()
-{	VM("HookGenerateSecurityKeys");
+{	//VM();HookGenerateSecurityKeys");
 
 	int addr = 0;
 	__try  
@@ -1463,13 +1463,13 @@ bool HookGenerateSecurityKeys()
 
 	return 1;
 
-	VE();
+	//VE();
 
 }
 
 
 bool HookGetBanStatus()
-{	VM("HookGetBanStatus");
+{	//VM();HookGetBanStatus");
 
 	//clear visitor list
 	InitVisitorsList();
@@ -1512,14 +1512,14 @@ bool HookGetBanStatus()
 	}
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
 
 
 bool HookClientBan()
-{	VM("HookClientBan");
+{	//VM();HookClientBan");
 
 	int addr = 0;
 	__try  
@@ -1563,7 +1563,7 @@ bool HookClientBan()
 	}
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -1573,7 +1573,7 @@ bool HookClientBan()
 
 typedef bool (__cdecl *AUTHIP)(int length, int ip, short port, int unk1, int unk2, int unk3);
 DWORD __cdecl myAuthorizeIP(DWORD caller, AUTHIP tramp, int length, int ip, short port, int unk1, int unk2, int unk3)
-{	VM("myAuthorizeIP");
+{	//VM();myAuthorizeIP");
 
 	bool ret = tramp(length, ip, port, unk1, unk2, unk3);
 	
@@ -1586,7 +1586,7 @@ DWORD __cdecl myAuthorizeIP(DWORD caller, AUTHIP tramp, int length, int ip, shor
 
 	return 0;
 
-	VE();
+	//VE();
 }
 
 
@@ -1807,7 +1807,7 @@ char g_TRUE[4] = "1";
 
 typedef char* (__cdecl *DVARTOSTRFORSCRIPTS)(char * dvar_name, char * dvar_def_val);
 char* __cdecl myDvarToStrForScripts(DWORD caller, DVARTOSTRFORSCRIPTS tramp, char * dvar_name, char * dvar_def_val)
-{	VM("myDvarToStrForScripts");
+{	//VM();myDvarToStrForScripts");
 
 	char* ret = tramp(dvar_name, dvar_def_val);
 
@@ -1842,12 +1842,12 @@ char* __cdecl myDvarToStrForScripts(DWORD caller, DVARTOSTRFORSCRIPTS tramp, cha
 	}
 
 	return ret;
-	VE();
+	//VE();
 }
 
 
 bool HookDvarToStrForScripts()
-{	VU("HookDvarToStrForScripts");
+{	//VU("HookDvarToStrForScripts");
 
 	int addr = 0;
 	__try  
@@ -1892,7 +1892,7 @@ bool HookDvarToStrForScripts()
 		return 0;
 	}
 	return 1;
-	VE();
+	//VE();
 }
 
 bool GetDvarAndFuncListPtrs()
@@ -2094,7 +2094,7 @@ bool GetDvarAddingFuncs()
 
 
 bool GetGameMode()
-{	VM("GetGameMode");
+{	//VM();GetGameMode");
 
 	//SP = 5C69773573702E70646200
 	//MP = 5C6977356D702E70646200
@@ -2139,14 +2139,14 @@ bool GetGameMode()
 
 	FindHexString_Quiet = false;
 	return 1;
-	VE();
+	//VE();
 }
 
 
 bool PatchVariousStuff_done = false;
 
 bool PatchVariousStuff()
-{	VU("PatchVariousStuff");
+{	//VU("PatchVariousStuff");
 
 	if (PatchVariousStuff_done) return true; else PatchVariousStuff_done = true;
 
@@ -2159,32 +2159,8 @@ bool PatchVariousStuff()
 
 		if (GAME_MODE =='M')
 		{
-			//.text:005F6F7E 74 3C                                         jz      short loc_5F6FBC
-			//.text:005F6F80 57                                            push    edi
-			//.text:005F6F81 8B BE B0 02 00 00                             mov     edi, [esi+2B0h]
-			//.text:005F6F87 8D 96 20 01 00 00                             lea     edx, [esi+120h]
-			//.text:005F6F8D 52                                            push    edx
-			//743C578BBEB00200008D962001000052
-
-			addr = FindHexString(V("743C578BBEB00200008D962001000052E8"), 0);
-
-			if (addr != 0)
-			{
-				DWORD ptr_a = addr + 0x10 + 5 + *(DWORD*)(addr+0x11);
-				info("Get protocol: ptr_a = %08X", ptr_a);
-
-				if (ptr_a > 0x400000 && ptr_a < 0x7C0000 && *(BYTE*)ptr_a == 0xB8 && *(BYTE*)(ptr_a+5) == 0xC3)
-				{
-					info("Get protocol: protocol = %08X", *(DWORD*)(ptr_a+1));
-
-					if (*(DWORD*)(ptr_a+1) > 0x4D68)
-						*(DWORD*)(ptr_a+1) = 0x4D68;
-				}
-				else
-				{
-					info("Get protocol: Failed (ptr_a doesnt point at normal function)");
-				}
-			}
+			*(DWORD *)0x6483C1 = 555295544;
+			*(DWORD *)0x4A36E1 = (DWORD)"IW5M r231\n... because we can.";
 		}
 
 		//dedicated has no crc libs
@@ -2979,13 +2955,13 @@ bool PatchVariousStuff()
 	}
 
 	return 1;
-	VE();
+	//VE();
 }
 
 
 
 bool GetServerInfo(char * ipport, char * destBuffer, DWORD buffer_size)
-{	VM("GetServerInfo_sb");
+{	//VM();GetServerInfo_sb");
 	
 	memset(destBuffer, 0, buffer_size);
 
@@ -3046,13 +3022,13 @@ bool GetServerInfo(char * ipport, char * destBuffer, DWORD buffer_size)
 
 
 
-	VE();
+	//VE();
 }
 
 
 typedef DWORD (__cdecl *GETSERVERINFO)(char * ipport, char* outbuffer, DWORD outbuffer_size);
 DWORD __cdecl myGetServerInfo(DWORD caller, GETSERVERINFO tramp, char * ipport, char* outbuffer, DWORD outbuffer_size)
-{	VM("myGetServerInfo");
+{	//VM();myGetServerInfo");
 
 	///DWORD ret = tramp(ipport, outbuffer, outbuffer_size);
 
@@ -3068,11 +3044,11 @@ DWORD __cdecl myGetServerInfo(DWORD caller, GETSERVERINFO tramp, char * ipport, 
 
 	return 0;
 
-	VE();
+	//VE();
 }
 
 bool HookGetServerInfo()
-{	VM("HookGetServerInfo");
+{	//VM();HookGetServerInfo");
 
 	int addr = 0;
 	__try  
@@ -3122,7 +3098,7 @@ bool HookGetServerInfo()
 
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -3133,14 +3109,14 @@ bool HookGetServerInfo()
 
 
 void FillServerInfo_Stub(char* outbuf) 
-{	VM("FillServerInfo_Stub");
+{	//VM();FillServerInfo_Stub");
 
 	char secondary[200];
 	sprintf(secondary, V("sv_allowClientConsole\\%d\\sv_floodProtect\\%d\\sv_maxclients\\%d\\sv_privateClients\\%d\\sv_privateClientsForClients\\%d\\"), 0, 1, 16, 0, 0);
 
 	sprintf(outbuf, V("\\g_gametype\\%s\\g_hardcore\\%d\\gamename\\IW5\\mapname\\%s\\protocol\\%d\\scr_game_allowkillcam\\%d\\scr_team_fftype\\%d\\shortversion\\%s\\challenge\\%s\\pswrd\\%d\\mod\\%d\\sv_hostname\\%s\\sv_voice\\%s\\sv_pure\\%d\\%s\\"), V("war"), 0, V("mp_village"), 101, 1, 0, V("1.4"), V("01234567890123456789"), 0, 0, V("Not Implemented Yet :("), V("Scream across the room"), 1, secondary );
 
-	VE();
+	//VE();
 }
 
 
@@ -3149,7 +3125,7 @@ void FillServerInfo_Stub(char* outbuf)
 
 
 bool GetFillServerInfo()
-{	VM("GetFillServerInfo");
+{	//VM();GetFillServerInfo");
 
 	int addr = 0;
 	__try  
@@ -3201,7 +3177,7 @@ bool GetFillServerInfo()
 
 	return 1;
 
-	VE();
+	//VE();
 }
 
 
@@ -3226,11 +3202,11 @@ BOOL __stdcall myGetMessage( GETMESSAGE tramp, LPMSG lpMsg, HWND hWnd, UINT wMsg
 
 
 bool HookKeyboard()
-{	VU("HookKeyboard");
+{	//VU("HookKeyboard");
 
 	return hook((void *)GetMessageA, myGetMessage);
 
-	VE();
+	//VE();
 }
 
 

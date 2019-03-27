@@ -5,7 +5,7 @@
 #include "game_patch_base.h"
 #include "steam_api_emu.h"
 #include "steam_api_emu_misc.h"
-#include "VMProtectSDK.h"
+
 #include "..\mw3_master_server\include\MasterServerProtocol.hpp"
 
 #pragma optimize("", off)
@@ -101,7 +101,7 @@ void ServerItem::getServerChallenge(PVOID pChallenge)
 }
 
 void ServerItem::fillGameServerItem( gameserveritem_t* pItem )
-{	VM("fillGameServerItem");
+{	//VM();fillGameServerItem");
 
 	pItem->m_bHadSuccessfulResponse = true;
 	pItem->m_bPassword = m_lastServerInfo.bPasswordProtected;
@@ -131,7 +131,7 @@ void ServerItem::fillGameServerItem( gameserveritem_t* pItem )
 	info("tags %s", pItem->m_szGameTags);
 
 
-	VE();
+	//VE();
 }
 
 gameserveritem_t * ServerItem::getGameServerItem()
@@ -144,7 +144,7 @@ gameserveritem_t * ServerItem::getGameServerItem()
 ServerList* ServerList::s_pInstance = NULL;
 
 void ServerList::initialize()
-{	VM("ServerList::initialize");
+{	//VM();ServerList::initialize");
 
 	if(!m_bInitialized)
 	{
@@ -189,7 +189,7 @@ void ServerList::initialize()
 		m_bInitialized = true;
 	}
 
-	VE();
+	//VE();
 }
 
 DWORD WINAPI ServerList::recvThread(LPVOID lpParameter)
@@ -247,7 +247,7 @@ DWORD WINAPI ServerList::recvThread(LPVOID lpParameter)
 
 
 DWORD WINAPI ServerList::serverQueryHandlerThread(LPVOID lpParameter)
-{	VM("ServerList::serverQueryHandlerThread");
+{	//VM();ServerList::serverQueryHandlerThread");
 
 
 	ServerList* pThis = (ServerList*)lpParameter;
@@ -309,7 +309,7 @@ DWORD WINAPI ServerList::serverQueryHandlerThread(LPVOID lpParameter)
 
 	pThis->m_bHandlerThreadStopped = true;
 	return 0;
-	VE();
+	//VE();
 }
 
 
@@ -338,7 +338,7 @@ void ServerList::stopThread()
 bool ServerList::m_bBlobLoadInProgress = false;
 
 DWORD WINAPI ServerList::blobThread(LPVOID lpParameter)
-{	VM("ServerList::blobThread");
+{	//VM();ServerList::blobThread");
 
 	m_bBlobLoadInProgress = true;
 	Sleep(3000);
@@ -352,7 +352,7 @@ DWORD WINAPI ServerList::blobThread(LPVOID lpParameter)
 	m_bBlobLoadInProgress = false;
 	return 0;
 
-	VE();
+	//VE();
 }
 
 void ServerList::startConnBlobLoaderThread(void * blob)
@@ -368,7 +368,7 @@ void ServerList::startConnBlobLoaderThread(void * blob)
 
 
 DWORD WINAPI ServerList::refreshLanListThread(LPVOID lpParameter)
-{	VM("ServerList::refreshLanListThread");
+{	//VM();ServerList::refreshLanListThread");
 
 	ServerList* pThis = (ServerList*)lpParameter;
 	EnterCriticalSection(&pThis->m_refreshProtection);
@@ -409,13 +409,13 @@ DWORD WINAPI ServerList::refreshLanListThread(LPVOID lpParameter)
 	LeaveCriticalSection(&pThis->m_refreshProtection);
 	return 0;
 
-	VE();
+	//VE();
 }
 
 
 
 DWORD WINAPI ServerList::refreshInternetListThread(LPVOID lpParameter)
-{	VM("ServerList::refreshInternetListThread");
+{	//VM();ServerList::refreshInternetListThread");
 
 	ServerList* pThis = (ServerList*)lpParameter;
 
@@ -491,12 +491,12 @@ DWORD WINAPI ServerList::refreshInternetListThread(LPVOID lpParameter)
 	LeaveCriticalSection(&pThis->m_refreshProtection);
 	return 0;
 
-	VE();
+	//VE();
 }
 
 
 bool ServerList::refreshFromMasterServer()
-{	VM("ServerList::refreshFromMasterServer");
+{	//VM();ServerList::refreshFromMasterServer");
 
 	if(!m_bInitialized)
 	{
@@ -584,11 +584,11 @@ bool ServerList::refreshFromMasterServer()
 	closesocket(s);
 	return true;
 
-	VE();
+	//VE();
 }
 
 void ServerList::sendInternetListMulticast(ISteamMatchmakingServerListResponse* pResponse)
-{	VM("ServerList::sendInternetListMulticast");
+{	//VM();ServerList::sendInternetListMulticast");
 
 	if(!m_bInitialized)
 	{
@@ -601,11 +601,11 @@ void ServerList::sendInternetListMulticast(ISteamMatchmakingServerListResponse* 
 	m_responseInterface = pResponse;
 	CreateThread(NULL, 0, refreshInternetListThread, this, 0, NULL);
 
-	VE();
+	//VE();
 }
 
 //void ServerList::simpleRefresh()
-//{	VM("ServerList::simpleRefresh");
+//{	//VM();ServerList::simpleRefresh");
 //
 //	if(!m_bInitialized)
 //	{
@@ -620,11 +620,11 @@ void ServerList::sendInternetListMulticast(ISteamMatchmakingServerListResponse* 
 //		CreateThread(NULL, 0, refreshInternetListThread, this, 0, NULL);
 //	}
 //
-//	VE();
+//	//VE();
 //}
 
 void ServerList::sendLocalBroadcast(ISteamMatchmakingServerListResponse* pResponse)
-{	VM("ServerList::sendLocalBroadcast");
+{	//VM();ServerList::sendLocalBroadcast");
 
 	if(!m_bInitialized)
 	{
@@ -636,7 +636,7 @@ void ServerList::sendLocalBroadcast(ISteamMatchmakingServerListResponse* pRespon
 	m_responseInterface = pResponse;
 	CreateThread(NULL, 0, refreshLanListThread, this, 0, NULL);
 
-	VE();
+	//VE();
 }
 
 void ServerList::cleanList()
@@ -666,7 +666,7 @@ int ServerItem::getServerIndex()
 
 
 bool ServerList::getGameServerItem(int serverIndex, gameserveritem_t* pItem)
-{	VM("ServerList::getGameServerItem");
+{	//VM();ServerList::getGameServerItem");
 
 	info("ServerList::getGameServerItem() start Index=%d\n", serverIndex);
 
@@ -690,12 +690,12 @@ bool ServerList::getGameServerItem(int serverIndex, gameserveritem_t* pItem)
 	}
 
 	return true;
-	VE();
+	//VE();
 }
 
 
 ServerItem* ServerList::getServerItemByIndex(int serverIndex)
-{	VM("ServerList::getServerItemByIndex");
+{	//VM();ServerList::getServerItemByIndex");
 
 	info("ServerList::getServerItemByIndex() start Index=%d\n", serverIndex);
 
@@ -717,14 +717,14 @@ ServerItem* ServerList::getServerItemByIndex(int serverIndex)
 
 
 	return NULL;
-	VE();
+	//VE();
 }
 
 
 ServerInformer* ServerInformer::s_pInstance = NULL;
 
 bool ServerInformer::initialize(CSteamID* steamId)
-{	VM("ServerInformer::initialize");
+{	//VM();ServerInformer::initialize");
 
 	if(!m_bInitialized)
 	{
@@ -798,12 +798,12 @@ bool ServerInformer::initialize(CSteamID* steamId)
 	}
 
 	return m_bInitialized;
-	VE();
+	//VE();
 }
 
 
 void ServerInformer::updateOnMasterServer()
-{	VM("ServerInformer::updateOnMasterServer");
+{	//VM();ServerInformer::updateOnMasterServer");
 
 	if (g_OnlineMode && m_bInitialized)
 	{
@@ -854,7 +854,7 @@ void ServerInformer::updateOnMasterServer()
 		info("ServerInformer::updateOnMasterServer() Skipping... (m_bInitialized=false)", WSAGetLastError());
 	}
 
-	VE();
+	//VE();
 }
 
 
@@ -936,7 +936,7 @@ void ServerInformer::stop()
 }
 
 void ServerInformer::updateServer(int cPlayers, int cPlayersMax, const char *pchServerName, const char *pchMapName)
-{	VM("ServerInformer::updateServer");
+{	//VM();ServerInformer::updateServer");
 
 
 	if (m_serverInfo.Magic4CC != MW3_SERVER_4CC) 
@@ -1001,7 +1001,7 @@ void ServerInformer::updateServer(int cPlayers, int cPlayersMax, const char *pch
 	//PrintBuffer((BYTE *)&m_serverInfo.Magic4CC, sizeof(MW3_SERVER_INFO)-MW3_SERVER_INFO_MAX_RAW_DATA_SIZE+m_serverInfo.RawDataSize, 16);
 
 
-	VE();
+	//VE();
 }
 
 void ServerInformer::setGameTags(const char *pchGameTags)
@@ -1011,7 +1011,7 @@ void ServerInformer::setGameTags(const char *pchGameTags)
 
 
 void ServerInformer::setServerType(uint32 unGameIP, uint16 unGamePort, uint16 usQueryPort, const char *pchVersion, bool bLANMode)
-{	VM("ServerInformer::setServerType");
+{	//VM();ServerInformer::setServerType");
 
 	m_serverInfo.GameIP_int = unGameIP;
 	m_serverInfo.GameIP_ext = GetExternalIP(true);
@@ -1031,12 +1031,12 @@ void ServerInformer::setServerType(uint32 unGameIP, uint16 unGamePort, uint16 us
 	memcpy(m_serverInfo.SecID, g_ServerKeyId, 8);
 	memcpy(m_serverInfo.SecKey, g_ServerKey, 16);
 
-	VE();
+	//VE();
 }
 
 
 ServerItem* ServerList::getServerItemByAddress(ULONG ipAddr, USHORT port)
-{	VM("ServerList::getServerIndexByAddress");
+{	//VM();ServerList::getServerIndexByAddress");
 
 	for(map<ULONGLONG, ServerItem*>::iterator itr = m_List.begin(); itr != m_List.end(); itr++)
 	{
@@ -1050,11 +1050,11 @@ ServerItem* ServerList::getServerItemByAddress(ULONG ipAddr, USHORT port)
 	}
 
 	return NULL;
-	VE();
+	//VE();
 }
 
 void * ServerList::createConnectionBlob(ULONG ipAddr, USHORT port, bool ServerItemMustExist)
-{	VU("ServerList::createConnectionBlob");
+{	//VU("ServerList::createConnectionBlob");
 
 	void * blob = ConnBlob_skeleton;
 
@@ -1152,14 +1152,14 @@ void * ServerList::createConnectionBlob(ULONG ipAddr, USHORT port, bool ServerIt
 
 	return NULL;
 
-	VE();
+	//VE();
 }
 
 
 
 
 int GetServerEntryIndexFromList(PMW3_MS_CLIENT_RESPONSE listData, DWORD ip, USHORT port)
-{	VM("GetServerEntryIndexFromList");
+{	//VM();GetServerEntryIndexFromList");
 
 	bool found = false;
 
@@ -1173,11 +1173,11 @@ int GetServerEntryIndexFromList(PMW3_MS_CLIENT_RESPONSE listData, DWORD ip, USHO
 
 	return -1;
 
-	VE();
+	//VE();
 }
 
 bool RemoveServerEntryFromList(PMW3_MS_CLIENT_RESPONSE listData, DWORD ip, USHORT port)
-{	VM("RemoveServerEntryFromList");
+{	//VM();RemoveServerEntryFromList");
 
 	int idx = GetServerEntryIndexFromList(listData, ip, port);
 
@@ -1203,13 +1203,13 @@ bool RemoveServerEntryFromList(PMW3_MS_CLIENT_RESPONSE listData, DWORD ip, USHOR
 	listData->NumberOfEntries--;
 	return true;
 
-	VE();
+	//VE();
 }
 
 
 
 PMW3_MS_CLIENT_RESPONSE LoadOfficialServerList()
-{	VM("LoadOfficialServerList");
+{	//VM();LoadOfficialServerList");
 
 	int entries = 1;
 	int max_size = entries*sizeof(MW3_MS_SERVER_ENTRY)+4;
@@ -1221,11 +1221,11 @@ PMW3_MS_CLIENT_RESPONSE LoadOfficialServerList()
 
 	return listData;
 
-	VE();
+	//VE();
 }
 
 PMW3_MS_CLIENT_RESPONSE LoadServerList(char * name, DWORD max_items)
-{	VM("LoadServerList");
+{	//VM();LoadServerList");
 
 	//SteamDataCrypto
 	char fname[256];
@@ -1263,11 +1263,11 @@ PMW3_MS_CLIENT_RESPONSE LoadServerList(char * name, DWORD max_items)
 
 	return listData;
 
-	VE();
+	//VE();
 }
 
 bool SaveServerList(PMW3_MS_CLIENT_RESPONSE listData, char * name, DWORD max_items)
-{	VM("SaveServerList");
+{	//VM();SaveServerList");
 
 	if (listData == NULL || name == NULL) return false;
 
@@ -1305,13 +1305,13 @@ bool SaveServerList(PMW3_MS_CLIENT_RESPONSE listData, char * name, DWORD max_ite
 
 	return false;
 
-	VE();
+	//VE();
 }
 
 
 
 bool ServerList::addHistoryGame(DWORD ip, USHORT port)
-{	VM("ServerList::addHistoryGame");
+{	//VM();ServerList::addHistoryGame");
 
 	//return WriteServerEntryToListFile(V("History"), ip, port, 30);
 	PMW3_MS_CLIENT_RESPONSE listData = LoadServerList(V("History"), 30);
@@ -1342,11 +1342,11 @@ bool ServerList::addHistoryGame(DWORD ip, USHORT port)
 	info("ServerList::addHistoryGame(%08X, %d) -> false", ip, port);
 	return false;
 
-	VE();
+	//VE();
 }
 
 bool ServerList::addFavoriteGame(DWORD ip, USHORT port)
-{	VM("ServerList::addFavoriteGame");
+{	//VM();ServerList::addFavoriteGame");
 
 	//return WriteServerEntryToListFile(V("Favorities"), ip, port, 1000);
 	PMW3_MS_CLIENT_RESPONSE listData = LoadServerList(V("Favorities"), 1000);
@@ -1382,13 +1382,13 @@ bool ServerList::addFavoriteGame(DWORD ip, USHORT port)
 	info("ServerList::addFavoriteGame(%08X, %d) -> false", ip, port);
 	return false;
 
-	VE();
+	//VE();
 }
 
 
 
 bool ServerList::removeFavoriteGame(DWORD ip, USHORT port)
-{	VM("ServerList::removeFavoriteGame");
+{	//VM();ServerList::removeFavoriteGame");
 
 	//return RemoveServerEntryFromListFile(V("Favorities"), ip, port, 1000);
 	PMW3_MS_CLIENT_RESPONSE listData = LoadServerList(V("Favorities"), 1000);
@@ -1413,12 +1413,12 @@ bool ServerList::removeFavoriteGame(DWORD ip, USHORT port)
 	info("ServerList::removeFavoriteGame(%08X, %d) -> false", ip, port);
 	return false;
 
-	VE();
+	//VE();
 }
 
 
 bool ServerList::refreshFavoriteGames()
-{	VM("ServerList::refreshFavoriteGames");
+{	//VM();ServerList::refreshFavoriteGames");
 
 	if(!m_bInitialized)
 	{
@@ -1445,11 +1445,11 @@ bool ServerList::refreshFavoriteGames()
 
 	return true;
 
-	VE();
+	//VE();
 }
 
 bool ServerList::refreshHistoryGames()
-{	VM("ServerList::refreshHistoryGames");
+{	//VM();ServerList::refreshHistoryGames");
 
 	if(!m_bInitialized)
 	{
@@ -1476,10 +1476,10 @@ bool ServerList::refreshHistoryGames()
 
 	return true;
 
-	VE();
+	//VE();
 }
 bool ServerList::refreshOfficialGames()
-{	VM("ServerList::refreshOfficialGames");
+{	//VM();ServerList::refreshOfficialGames");
 
 	if(!m_bInitialized)
 	{
@@ -1506,7 +1506,7 @@ bool ServerList::refreshOfficialGames()
 
 	return true;
 
-	VE();
+	//VE();
 }
 
 //

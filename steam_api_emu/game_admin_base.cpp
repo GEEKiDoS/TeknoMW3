@@ -7,7 +7,7 @@
 #include "util.h"
 #include "util_ini.h"
 #include "util_adv_log.h"
-#include "VMProtectSDK.h"
+
 #include <map>
 
 
@@ -20,7 +20,7 @@ bool g_GlobalBans_lock = false;
 char p_charset[92] = "'´` _.1234567890^=-+*[]~{}()<>$@|#!qwertyuiopasdfghjklzxcvbnm:QWERTYUIOPASDFGHJKLZXCVBNM";
 
 bool IsNicknameProper(char * nickname, int len)
-{	VM("IsNicknameProper");
+{	//VM();IsNicknameProper");
 
 	if (len > 0x4B) return false;
 
@@ -41,7 +41,7 @@ bool IsNicknameProper(char * nickname, int len)
 
 	return true;
 
-	VE();
+	//VE();
 }
 
 
@@ -51,7 +51,7 @@ bool IsNicknameProper(char * nickname, int len)
 #define GLOBAL_BANS_BUFFER_SIZE 0x4000
 
 DWORD WINAPI InitGlobalBansThreadFunc(LPVOID lpParameter)
-{	VM("InitGlobalBansThreadFunc");
+{	//VM();InitGlobalBansThreadFunc");
 
 	if (g_GlobalBansData != NULL) free(g_GlobalBansData);
 
@@ -64,11 +64,11 @@ DWORD WINAPI InitGlobalBansThreadFunc(LPVOID lpParameter)
 
 	return 0;
 
-	VE();
+	//VE();
 }
 
 void InitGlobalBans()
-{	VM("InitGlobalBans");
+{	//VM();InitGlobalBans");
 
 	while (g_GlobalBans_lock) Sleep(1);
 	g_GlobalBans_lock = true;
@@ -100,7 +100,7 @@ void InitGlobalBans()
 
 	info("InitGlobalBansThreadFunc finished\n");
 
-	VE();
+	//VE();
 }
 
 
@@ -109,7 +109,7 @@ int tempBanCount = 0;
 bool tempBanLock = false;
 
 void g_TempBan(DWORD ip)
-{	VM("g_TempBan");
+{	//VM();g_TempBan");
 
 	//gyspy thread lock
 	while (tempBanLock) Sleep(1);
@@ -123,11 +123,11 @@ void g_TempBan(DWORD ip)
 
 	tempBanLock = false;
 
-	VE();
+	//VE();
 }
 
 bool g_IsTempBanned(DWORD ip)
-{	VM("g_IsTempBanned");
+{	//VM();g_IsTempBanned");
 
 	//gyspy thread lock
 	while (tempBanLock) Sleep(1);
@@ -145,7 +145,7 @@ bool g_IsTempBanned(DWORD ip)
 	tempBanLock = false;
 	return false;
 
-	VE();
+	//VE();
 }
 
 
@@ -160,7 +160,7 @@ void InitVisitorsList()
 
 
 DWORD * GetServerVisitor(USHORT port, DWORD ip)
-{	VM("GetServerVisitor");
+{	//VM();GetServerVisitor");
 
 	ULONGLONG newVisitorIPPORT = ip * 0x100000000 | (port & 0xFFFF);
 
@@ -184,13 +184,13 @@ DWORD * GetServerVisitor(USHORT port, DWORD ip)
 
 	return NULL;
 
-	VE();
+	//VE();
 }
 
 bool banVisitorLock = false;
 
 bool BanServerClient(USHORT port, DWORD ip, char * nickname)
-{	VU("BanServerClient");
+{	//VU("BanServerClient");
 
 	//gypsy thread lock
 	while (banVisitorLock) Sleep(1);
@@ -218,11 +218,11 @@ bool BanServerClient(USHORT port, DWORD ip, char * nickname)
 	banVisitorLock = false;
 	return false;
 
-	VE();
+	//VE();
 }
 
 bool IsServerClientBanned(DWORD * hwid)
-{	VU("IsServerClientBanned");
+{	//VU("IsServerClientBanned");
 
 	if (hwid == NULL) return false;
 
@@ -259,13 +259,13 @@ bool IsServerClientBanned(DWORD * hwid)
 	banVisitorLock = false;
 	return false;	
 
-	VE();
+	//VE();
 }
 
 
 
 bool AddServerVisitor(DWORD * hwid, USHORT port, DWORD ip)
-{	VM("AddServerVisitor");
+{	//VM();AddServerVisitor");
 
 	//gypsy thread lock
 	while (banVisitorLock) Sleep(1);
@@ -291,11 +291,11 @@ bool AddServerVisitor(DWORD * hwid, USHORT port, DWORD ip)
 	banVisitorLock = false;
 	return true;
 
-	VE();
+	//VE();
 }
 
 int __stdcall myGetBanStatus(bool SteamID_perm_banned, DWORD * hwid, DWORD steamID_hi, DWORD steamID_low, USHORT port, DWORD ip)
-{	VU("myGetBanStatus");
+{	//VU("myGetBanStatus");
 
 	info("ip = %08X, port = %d, SteamID = %08X %08X, hwid[0] = %08X, perm_banned = %d", ip, port, steamID_low, steamID_hi, hwid[0], SteamID_perm_banned);
 
@@ -322,11 +322,11 @@ int __stdcall myGetBanStatus(bool SteamID_perm_banned, DWORD * hwid, DWORD steam
 	}
 
 	return 0;
-	VE();
+	//VE();
 }
 
 DWORD __cdecl myClientBan(DWORD caller, CLIENTBAN tramp, PMW3_CLIENT_INFO_DEDI client)
-{	VM("myClientBan");
+{	//VM();myClientBan");
 
 	tramp(client);
 	
@@ -356,7 +356,7 @@ DWORD __cdecl myClientBan(DWORD caller, CLIENTBAN tramp, PMW3_CLIENT_INFO_DEDI c
 
 	return 0;
 
-	VE();
+	//VE();
 }
 
 
@@ -364,7 +364,7 @@ DWORD __cdecl myClientBan(DWORD caller, CLIENTBAN tramp, PMW3_CLIENT_INFO_DEDI c
 
 
 DWORD WINAPI GameplayGuardThreadFunc(LPVOID lpParameter)
-{	VM("GameplayGuardThreadFunc");
+{	//VM();GameplayGuardThreadFunc");
 
 	if (g_ClientsBlock != NULL)
 		ConsolePrintf(0, V("Gameplay guard initialized.\n"));
@@ -440,7 +440,7 @@ DWORD WINAPI GameplayGuardThreadFunc(LPVOID lpParameter)
 	}
 
 	return 1;
-	VE();
+	//VE();
 }
 
 
@@ -452,7 +452,7 @@ void InitGameplayGuard()
 
 
 void DumpClientsData()
-{	VM("DumpClientsData");
+{	//VM();DumpClientsData");
 
 	if (g_ClientsBlock == NULL)
 		return;
@@ -485,7 +485,7 @@ void DumpClientsData()
 	//	}
 	//}
 
-	VE();
+	//VE();
 }
 
 

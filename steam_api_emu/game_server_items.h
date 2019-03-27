@@ -16,7 +16,7 @@ using namespace std;
 #define MW3_SERVER_4BB 'BOOB'
 #define SERVER_INFORMER_PORT_RANGE 10
 #define STATIC_SECURITY_KEY 0x31
-#define MW3_GAME_BUILD_MOD 1
+#define MW3_GAME_BUILD_MOD 0x97 // 2804!
 
 #pragma pack(1)
 typedef struct _MW3_SERVER_QUERY {

@@ -7,7 +7,7 @@
 #include "steam_api_emu.h"
 #include "steam_api_emu_misc.h"
 #include "game_patch_base.h"
-#include "VMProtectSDK.h"
+
 #include <sys/stat.h>
 #include <time.h>
 char mpdata_name[100];
@@ -15,7 +15,7 @@ char mpdata_name[100];
 #pragma optimize("", off)
 
 char * GetMpdataName(CSteamID * steam_id)
-{	VU("GetMpdataName");
+{	//VU("GetMpdataName");
 
 	DWORD *keys;
 	__asm
@@ -28,12 +28,12 @@ char * GetMpdataName(CSteamID * steam_id)
 	sprintf(mpdata_name, V(".\\dw\\iw5_m%x_%07x%08x.stat"), 0x2d02ef8d, keys[1], keys[0]);
 
 	return mpdata_name;
-	VE();
+	//VE();
 }
 
 
 bool ValidateLoaderMutex()
-{	VU("ValidateLoaderMutex");
+{	//VU("ValidateLoaderMutex");
 
 	char mtx[256];
 	sprintf(mtx, V("TeknoMW3%08X"), GetCurrentProcessId() ^ 0x57);
@@ -49,12 +49,12 @@ bool ValidateLoaderMutex()
 	}
 
 	return true;	
-	VE();
+	//VE();
 }
 
 
 bool ValidateDumperMutex()
-{	VU("ValidateDumperMutex");
+{	//VU("ValidateDumperMutex");
 
 	char mtx[256];
 	sprintf(mtx, V("TeknoPDump%08X"), GetCurrentProcessId() ^ 0x80);
@@ -65,13 +65,13 @@ bool ValidateDumperMutex()
 	}
 
 	return true;	
-	VE();
+	//VE();
 }
 
 
 
 bool SteamDataCrypto(BYTE * data, BYTE * outbuf, int size, CSteamID *steam_id)
-{	VM("SteamDataCrypto");
+{	//VM();SteamDataCrypto");
 
 	DWORD *keys;
 	__asm
@@ -143,11 +143,11 @@ bool SteamDataCrypto(BYTE * data, BYTE * outbuf, int size, CSteamID *steam_id)
 	free(cryptotable);
 
 	return true;
-	VE();
+	//VE();
 }
 
 DWORD GetHWIDchunk(int chunk)
-{	VU("GetHWIDchunk");
+{	//VU("GetHWIDchunk");
 
 	int res = -1;
 
@@ -243,12 +243,12 @@ DWORD GetHWIDchunk(int chunk)
 
 	return 0;
 
-	VE();
+	//VE();
 }
 
 
 bool GetHWID(DWORD * hwid)
-{	VU("GetHWID");
+{	//VU("GetHWID");
 
 	
 	CHwInfo smbios2;
@@ -383,13 +383,13 @@ bool GetHWID(DWORD * hwid)
 
 	return true;
 
-	VE();
+	//VE();
 }
 
 
 
 int GetHWIDSteamID()
-{	VU("GetHWIDSteamID");
+{	//VU("GetHWIDSteamID");
 
 	char p[255];
 	memset(p, 0, 255);
@@ -419,7 +419,7 @@ int GetHWIDSteamID()
 
 	
 	return crc32;
-	VE();
+	//VE();
 
 	//DWORD res = 0;
 	//HKEY hKey2;

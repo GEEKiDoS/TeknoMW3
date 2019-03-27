@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "util_codehook.h"
 #include "util.h"
-#include "VMProtectSDK.h"
+
 #include <windows.h>
 #include <stdlib.h>
 

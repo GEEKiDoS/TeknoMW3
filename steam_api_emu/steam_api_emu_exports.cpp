@@ -6,7 +6,7 @@
 #include "steam_api_emu.h"
 #include "steam_api_emu_interfaces.h"
 #include "dw_stun_server.h"
-#include "VMProtectSDK.h"
+
 
 #pragma optimize("", off)
 
@@ -75,7 +75,7 @@ extern "C"
 		return true;
 	}
 	__declspec(dllexport) void __cdecl SteamAPI_RegisterCallResult( CCallbackBase* pResult, SteamAPICall_t APICall )
-	{	VM("SteamAPI_RegisterCallResult");
+	{	//VM();SteamAPI_RegisterCallResult");
 
 		g_Logging.AddToLogFileA( "steam_emu.log", "SteamAPI_RegisterCallResult APICall=%I64d Callback=0x%8.8X", APICall, pResult->GetICallback() );
 
@@ -108,10 +108,10 @@ extern "C"
 			
 		}
 
-		VE();
+		//VE();
 	}
 	__declspec(dllexport) void __cdecl SteamAPI_RegisterCallback( CCallbackBase *pCallback, int iCallback )
-	{	VM("SteamAPI_RegisterCallback");
+	{	//VM();SteamAPI_RegisterCallback");
 
 		g_Logging.AddToLogFileA( "steam_emu.log", "SteamAPI_RegisterCallback iCallback=%d CallbackProc=0x%08X", iCallback, *(DWORD*)((DWORD)pCallback+0x10) );
 
@@ -170,10 +170,10 @@ extern "C"
 			g_ServerCallbacks[4] = pCallback;
 		}
 
-		VE();
+		//VE();
 	}
 	__declspec(dllexport) void __cdecl SteamAPI_RunCallbacks()
-	{	VM("SteamAPI_RunCallbacks");
+	{	//VM();SteamAPI_RunCallbacks");
 
 		//g_Logging.AddToLogFileA( "steam_emu.log", "SteamAPI_RunCallbacks" );
 		if( g_TeknoGodzMW2_isPendingConnect )
@@ -200,7 +200,7 @@ extern "C"
 			g_SteamUserCallbacks[0]->Run(&appTickResp);
 		}
 
-		VE();
+		//VE();
 	}
 	__declspec(dllexport) void __cdecl SteamAPI_SetMiniDumpComment( const char *pchMsg )
 	{
@@ -352,7 +352,7 @@ extern "C"
 	typedef bool (__cdecl *SGSINIT)( uint32 unIP, uint16 usPort, uint16 usGamePort, uint16 usSpectatorPort, uint16 usQueryPort, EServerMode eServerMode, const char *pchGameDir, const char *pchVersionString );
 	
 	__declspec(dllexport) bool __cdecl SteamGameServer_Init( uint32 unIP, uint16 usPort, uint16 usGamePort, uint16 usSpectatorPort, uint16 usQueryPort, EServerMode eServerMode, const char *pchGameDir, const char *pchVersionString )
-	{	VM("SteamGameServer_Init");
+	{	//VM();SteamGameServer_Init");
 
 		g_Logging.AddToLogFileA( "steam_emu.log", "SteamGameServer_Init(unIP=%08X, usPort=%d, usGamePort=%d, usSpectatorPort=%d, usQueryPort=%d, eServerMode=%d, pchGameDir='%s', pchVersionString='%s' )", unIP, usPort, usGamePort, usSpectatorPort, usQueryPort, eServerMode, pchGameDir, pchVersionString );
 
@@ -393,7 +393,7 @@ extern "C"
 		}
 
 		return true;
-		VE();
+		//VE();
 	}
 	__declspec(dllexport) bool __cdecl SteamGameServer_InitSafe( uint32 unIP, uint16 usPort, uint16 usGamePort, EServerMode eServerMode, int nGameAppId, const char *pchGameDir, const char *pchVersionString, unsigned long dongs )
 	{
