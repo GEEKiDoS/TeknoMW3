@@ -879,3 +879,21 @@ DWORD GetCRC32(void* pData, const int length)
 
 	return _crc ^ 0xFFFFFFFF;
 }
+
+// a funny thing is how this va() function could possibly come from leaked IW code.
+#define VA_BUFFER_COUNT		4
+#define VA_BUFFER_SIZE		4096
+
+static char g_vaBuffer[VA_BUFFER_COUNT][VA_BUFFER_SIZE];
+static int g_vaNextBufferIndex = 0;
+
+const char *va(const char *fmt, ...)
+{
+	va_list ap;
+	char *dest = &g_vaBuffer[g_vaNextBufferIndex][0];
+	g_vaNextBufferIndex = (g_vaNextBufferIndex + 1) % VA_BUFFER_COUNT;
+	va_start(ap, fmt);
+	vsprintf(dest, fmt, ap);
+	va_end(ap);
+	return dest;
+}

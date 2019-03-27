@@ -92,7 +92,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>.\SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);.\SDK;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;STEAM_API_EMU_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -121,6 +121,12 @@
     <ClCompile Include="game_hotkey_base.cpp" />
     <ClCompile Include="game_patch_base_coop.cpp" />
     <ClCompile Include="game_patch_hookports.cpp" />
+    <ClCompile Include="IW5M\Hooking.cpp" />
+    <ClCompile Include="IW5M\IW5.cpp" />
+    <ClCompile Include="IW5M\PatchIW5.cpp" />
+    <ClCompile Include="IW5M\PatchIW5AssetReallocation.cpp" />
+    <ClCompile Include="IW5M\PatchIW5ConsoleDvar.cpp" />
+    <ClCompile Include="IW5M\PatchIW5EliteScores.cpp" />
     <ClCompile Include="steam_api_emu_exports.cpp" />
     <ClCompile Include="steam_api_emu_interfaces.cpp" />
     <ClCompile Include="util_adv_log.cpp" />
@@ -131,7 +137,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="steam_api_emu.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="steam_api_emu_misc.cpp" />
     <ClCompile Include="util.cpp" />
     <ClCompile Include="util_ini.cpp" />
@@ -146,6 +152,8 @@
     <ClInclude Include="game_hotkey_base.h" />
     <ClInclude Include="game_patch_base_coop.h" />
     <ClInclude Include="game_patch_hookports.h" />
+    <ClInclude Include="IW5M\Hooking.h" />
+    <ClInclude Include="IW5M\IW5.h" />
     <ClInclude Include="util_adv_log.h" />
     <ClInclude Include="game_patch_base.h" />
     <ClInclude Include="SDK\AppTicketCommon.h" />

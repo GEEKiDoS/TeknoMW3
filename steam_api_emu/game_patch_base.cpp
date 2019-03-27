@@ -50,7 +50,7 @@ bool g_ValidateNicknames = false;
 
 
 //UI String Replacements
-char TEKNO_TITLE_CAPTION[15] = "^1Tekno MW3";
+char TEKNO_TITLE_CAPTION[22] = "^6TeknoMW3^0-^2M";
 char TEKNO_OFFICIALSERVLIST_CAPTION[10] = "OFFICIAL";
 char TEKNO_FRIENDS_CAPTION[40] = "You have no real friends around here.";
 //char TEKNO_NULL_CAPTION[13] = "^8DISABLED";
@@ -805,21 +805,38 @@ int myConsoleFunc(DWORD caller, MYCONPROC tramp, DWORD unk, char * command)
 		{
 			LockIntDvarTo("cg_scoreboardpingtext", 1);
 			LockIntDvarTo("cg_scoreboardpinggraph", 0);
-			LockIntDvarTo("cg_scoreboardheight", 800);
-			LockIntDvarTo("cg_scoreboardwidth", 500);
-			LockIntDvarTo("cg_scoreboarditemheight", 12);
+			*(BYTE *)0x44ACA9 = 1;
+			LockIntDvarTo("cl_maxpackets", 100);
+			LockIntDvarTo("cl_packetdup", 1);
 		}
 	}
-
-
-	
-
-
 
 	//lets use this as a trigger to patch heatmap checks
 	if (strncmp(command, V("xcheckezpatchversion"), 20) == 0 || strncmp(command, V("updategamerprofile"), 18) == 0)
 	{
 		SaveDWMpdataToFile(false);
+	}
+
+	if (!strncmp(command, "readStats", 9))
+	{
+		/*
+		//clantag
+		*(BYTE *)0x1328D33 = 1;
+		*(DWORD *)0x1328D54 = 0;
+		*(BYTE *)0x1328D58 = 0;
+		memmove((void *)0x1328D54, "GEEK", 4);
+
+		//title
+		*(BYTE *)0x1328D34 = 1;
+		*(DWORD *)0x1328D35 = 0;
+		*(DWORD *)0x1328D39 = 0;
+		*(DWORD *)0x1328D3D = 0;
+		*(DWORD *)0x1328D41 = 0;
+		*(DWORD *)0x1328D45 = 0;
+		*(DWORD *)0x1328D49 = 0;
+		*(WORD *)0x1328D4D = 0;
+		memmove((void *)0x1328D35, "^1A^2B^3C^4D^5E^6F^8G", 22);.
+		*/
 	}
 
 	if (strncmp(command, V("connect "), 8) == 0)
@@ -903,29 +920,6 @@ int myConsoleFunc(DWORD caller, MYCONPROC tramp, DWORD unk, char * command)
 			return 0;
 		}
 	}
-
-
-	//if we need to change some dvars, lets do it here..
-	if (g_NewFov != 0) 
-	{
-		if (g_NewFov > 90)
-			g_NewFov = 90;
-		if (g_NewFov < 65)
-			g_NewFov = 65;
-
-		if (g_NewFov > 80)
-		{
-			float scale = 1.0 + ((g_NewFov-80.0) * 0.0125);
-			LockFloatDvarTo(V("cg_fovscale"), scale);
-
-			LockIntDvarTo(V("cg_fov"), 80);
-		}
-		else
-		{
-			LockIntDvarTo(V("cg_fov"), g_NewFov);
-		}
-	}
-
 
 	return tramp(unk, command);
 	//VE();
@@ -2153,14 +2147,10 @@ bool PatchVariousStuff()
 	int addr = 0;
 	__try  
 	{
-		DWORD oldp;
-		int addr2 = 0x400000 + GetSectionPtr(0);
-		VirtualProtect((void*)addr2, GetSectionSize(0), PAGE_EXECUTE_READWRITE, &oldp);
-
 		if (GAME_MODE =='M')
 		{
+			// 2804 protcol
 			*(DWORD *)0x6483C1 = 555295544;
-			*(DWORD *)0x4A36E1 = (DWORD)"IW5M r231\n... because we can.";
 		}
 
 		//dedicated has no crc libs
@@ -2941,10 +2931,6 @@ bool PatchVariousStuff()
 				}
 			}
 		}
-
-		
-
-		VirtualProtect((void*)addr2, GetSectionSize(0), oldp, &oldp);
 	}
 	__except ( EXCEPTION_EXECUTE_HANDLER )
 	{

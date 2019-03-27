@@ -728,9 +728,6 @@ bool ServerInformer::initialize(CSteamID* steamId)
 
 	if(!m_bInitialized)
 	{
-		
-
-
 		memset(&m_serverInfo, 0, sizeof(MW3_SERVER_INFO));
 		m_serverInfo.Magic4CC = MW3_SERVER_4CC;
 		m_serverInfo.SteamId = steamId->ConvertToUint64();

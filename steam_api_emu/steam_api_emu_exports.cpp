@@ -546,7 +546,7 @@ extern "C"
 
 	__declspec(dllexport) void *g_pSteamClientGameServer = NULL;
 
-	__declspec(dllexport) void *V_2_7_0_5 = NULL;
+	__declspec(dllexport) void *V_2_7_0_5_UPCAP = NULL;
 
 }
 

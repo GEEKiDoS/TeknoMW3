@@ -27,6 +27,14 @@
 // Windows Header Files:
 #include <windows.h>
 
+#include <stdio.h>
+#include <limits.h>
+#include <stdarg.h>
+#include <stdlib.h>
+
+#include "IW5M/Hooking.h"
+#include "IW5M/IW5.h"
+
 
 #ifndef DEBUGGING_ENABLED
 //#define DEBUGGING_ENABLED

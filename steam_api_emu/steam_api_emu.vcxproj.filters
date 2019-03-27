@@ -27,9 +27,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="steam_api_emu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -83,6 +80,27 @@
     </ClCompile>
     <ClCompile Include="util_smbios2.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IW5M\Hooking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IW5M\PatchIW5EliteScores.cpp">
+      <Filter>Source Files\IW5MPatches</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IW5M\PatchIW5ConsoleDvar.cpp">
+      <Filter>Source Files\IW5MPatches</Filter>
+    </ClCompile>
+    <ClCompile Include="IW5M\IW5.cpp">
+      <Filter>Source Files\IW5MPatches</Filter>
+    </ClCompile>
+    <ClCompile Include="IW5M\PatchIW5AssetReallocation.cpp">
+      <Filter>Source Files\IW5MPatches</Filter>
+    </ClCompile>
+    <ClCompile Include="IW5M\PatchIW5.cpp">
+      <Filter>Source Files\IW5MPatches</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -900,6 +918,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IW5M\Hooking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IW5M\IW5.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
