@@ -37,6 +37,7 @@ void PatchIW5_OneThread();
 void PatchIW5_EliteScores();
 void PatchIW5_ConsoleDvar();
 void PatchIW5_AssetReallocation();
+void PatchIW5_Binding();
 
 void __cdecl InitDvars_Hook()
 {
@@ -149,7 +150,7 @@ void Sys_RunInit()
 	Dvar_FindVar = (Dvar_FindVar_t)0x4EBB50;
 	Com_Error = (Com_Error_t)0x4A6660;
 
-	g_compassForceDisplay = Dvar_RegisterBool("g_compassForceDisplay", 0, 4);
+	g_compassForceDisplay = Dvar_RegisterBool("g_compassForceDisplay", 1, 4);
 
 	// enable console
 	__asm {
@@ -164,6 +165,7 @@ void Sys_RunInit()
 	PatchIW5_AssetReallocation();
 	PatchIW5_EliteScores();
 	PatchIW5_ConsoleDvar();
+	PatchIW5_Binding();
 
 	*(DWORD *)0x4A36E1 = (DWORD)"^6TeknoMW3^0-^2M ^7r1\n^5... because we can.";
 
@@ -419,7 +421,10 @@ extern bool didWeDoSomeNaughtyStuff;
 
 void ConsoleCommandHandlerFunc(int controller, const char* command)
 {
-	Cbuf_AddText(0, va("%s\n", command));
+	if (*command == '/' || *command == '\'')
+		Cbuf_AddText(0, va("%s\n", ++command));
+	else
+		Cbuf_AddText(0, va("rcon %s\n", command));
 }
 
 void LogLocalVar_(const char* name)
@@ -620,44 +625,13 @@ void PatchIW5_OneThread()
 	// 'rcon ' string
 	*(BYTE*)0x7EAB54 = 0;
 
+	//fs_basegame unlock
+	*(DWORD*)0x64627C = 0;
+	*(DWORD*)0x646281 = (DWORD)"userraw"; //or whatever you want
+	//fs_game unlock
+	*(DWORD*)0x64629A = 0;
+
 	// console command handler
 	consoleCommandHandler.initialize("", 5, (PBYTE)consoleCommandHandlerLoc);
 	consoleCommandHandler.installHook((void(*)())ConsoleCommandHandlerFunc, true, false);
-}
-
-struct LocalizeEntry
-{
-	const char* value;
-	const char* name;
-};
-
-LocalizeEntry* SEH_LocalizeAsset(int type, const char* ref, bool stuff)
-{
-	static LocalizeEntry entry;
-	LocalizeEntry* dbEntry = (LocalizeEntry*)DB_FindXAssetHeader(type, ref, stuff);
-
-	if (!dbEntry)
-	{
-		return dbEntry;
-	}
-
-	memcpy(&entry, dbEntry, sizeof(LocalizeEntry));
-
-	if (!strcmp(entry.name, "MENU_STORE_CAPS"))
-	{
-		entry.value = "^:NEW^7 STORE";
-	}
-	else if (!strcmp(entry.name, "PLATFORM_STORE_DESC"))
-	{
-		entry.value = "'Purchase' content packs.";
-	}
-
-	return &entry;
-}
-
-void PatchIW5_LocalizedStrings()
-{
-	call(0x424EE4, SEH_LocalizeAsset, PATCH_CALL);
-	call(0x4A09D3, SEH_LocalizeAsset, PATCH_CALL);
-	call(0x629A4F, SEH_LocalizeAsset, PATCH_CALL);
 }

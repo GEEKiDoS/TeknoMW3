@@ -127,6 +127,7 @@
     <ClCompile Include="IW5M\PatchIW5AssetReallocation.cpp" />
     <ClCompile Include="IW5M\PatchIW5ConsoleDvar.cpp" />
     <ClCompile Include="IW5M\PatchIW5EliteScores.cpp" />
+    <ClCompile Include="PatchIW5Binding.cpp" />
     <ClCompile Include="steam_api_emu_exports.cpp" />
     <ClCompile Include="steam_api_emu_interfaces.cpp" />
     <ClCompile Include="util_adv_log.cpp" />

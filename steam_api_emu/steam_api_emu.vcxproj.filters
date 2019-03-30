@@ -102,6 +102,9 @@
     <ClCompile Include="IW5M\PatchIW5.cpp">
       <Filter>Source Files\IW5MPatches</Filter>
     </ClCompile>
+    <ClCompile Include="PatchIW5Binding.cpp">
+      <Filter>Source Files\IW5MPatches</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

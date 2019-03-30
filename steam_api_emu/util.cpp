@@ -76,12 +76,12 @@ void info(const char *format, ...)
 	DWORD len = vsprintf(buf, format, marker);
 	va_end(marker);
 
-	strcpy(buf + len, "\r\n");
+	strcpy(buf + len, "\n");
 
 	//DWORD written;
 	//WriteFile(infoFile, buf, len + 2, &written, NULL);
 	//OutputDebugStringA(buf);
-	printf(buf);
+	Com_Printf(0, buf);
 	
 }
 
